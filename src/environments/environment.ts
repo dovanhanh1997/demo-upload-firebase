@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyAI2mUYqg2uVfH38Dcv6izG1CM4WTKJEQk',
+    authDomain: 'codegym-music.firebaseapp.com',
+    databaseURL: 'https://codegym-music.firebaseio.com',
+    projectId: 'codegym-music',
+    storageBucket: 'codegym-music.appspot.com',
+    messagingSenderId: '127513955338',
+    appId: '1:127513955338:web:f3aa07d1a6a2741008a3f3'
+  },
 };
 
 /*
