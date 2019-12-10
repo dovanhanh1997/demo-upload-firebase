@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,36 +12,35 @@ import {AngularFireStorage} from '@angular/fire/storage';
 export class AppComponent {
   title = 'upload-file-to-firebase02';
   selectFile: File = null;
-  fileUrl: Observable<string | null>;
-  musicUrl = '';
-  itemValue = '';
-  items = new Observable<any[]>();
+  listMusic: any[];
+  databaseList: AngularFireList<any>;
 
-  constructor(private db: AngularFireDatabase, private afStorage: AngularFireStorage) {
+  constructor(private afDatabase: AngularFireDatabase, private afStorage: AngularFireStorage) {
   }
 
   //
   // onSubmit() {
-  //   this.db.list('items').push({content: this.itemValue});
+  //   this.afDatabase.list('items').push({content: this.itemValue});
   //   this.itemValue = '';
   // }
 
   onSelectedFile(event) {
-    console.log(event);
     this.selectFile = event.target.files[0] as File;
     console.log(this.selectFile);
   }
 
   upLoad() {
-    return this.afStorage.ref(`music/${this.selectFile.name}`).put(this.selectFile);
+    this.databaseList = this.afDatabase.list('/list');
+    const firePath = `${this.selectFile.name}`;
+    const fireRef = this.afStorage.ref(firePath);
+    this.afStorage.upload(firePath, this.selectFile).snapshotChanges().pipe(
+      finalize(() => {
+        fireRef.getDownloadURL().subscribe((url) => {
+          this.databaseList.push({musicUrl: url});
+        });
+      })
+    ).subscribe();
   }
 
-  list() {
-    const ref = this.afStorage.ref('music/NguoiEmKhongYeu-QuangVinh-2430593.mp3');
-    this.fileUrl = ref.getDownloadURL();
-    this.fileUrl.subscribe(url => {
-      this.musicUrl = url;
-      console.log(this.musicUrl);
-    });
-  }
+
 }

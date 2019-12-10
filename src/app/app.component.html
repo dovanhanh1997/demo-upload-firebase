@@ -6,14 +6,6 @@
 <input type="file" (change)="onSelectedFile($event)">
 <button type="button" (click)="upLoad()">Upload</button>
 <br>
-<button type="button" (click)="list()">List</button>
+<button routerLink="/list" type="button" >List</button>
 
-<audio controls>
-  <source
-    src="https://firebasestorage.googleapis.com/v0/b/codegym-music.appspot.com/o/music%2FNguoiEmKhongYeu-QuangVinh-2430593.mp3?alt=media&token=2fcdb97b-b674-47c3-a0a7-b79a2890a9b2"
-    type="audio/mpeg">
-</audio>
-
-<audio controls>
-  <source [src]="musicUrl">
-</audio>
+<router-outlet></router-outlet>

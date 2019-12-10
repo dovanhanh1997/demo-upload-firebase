@@ -7,10 +7,12 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import { MusicListComponent } from './music-list/music-list.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MusicListComponent
   ],
   imports: [
     FormsModule,
